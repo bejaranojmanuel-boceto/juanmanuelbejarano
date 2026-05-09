@@ -1,0 +1,6 @@
+# Forzar HTTPS — Netlify ya lo hace por defecto pero aquí lo dejamos explícito
+# Limpiar .html de las URLs de artículos (opcional — los enlaces internos
+# usan .html así que no es estrictamente necesario)
+
+# Páginas legacy o atajos pueden agregarse aquí si en el futuro renombras
+# /blog → /articulos  301

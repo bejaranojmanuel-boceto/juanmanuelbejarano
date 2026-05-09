@@ -1,0 +1,129 @@
+# =============================================================================
+# CONFIGURACIÓN DE DECAP CMS — PANEL DE ADMINISTRACIÓN
+# =============================================================================
+# Este archivo define qué archivos puede editar Juan Manuel desde el panel
+# /admin del sitio. Está configurado para usar Netlify Identity (gratis)
+# como sistema de autenticación.
+# =============================================================================
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Idioma del panel
+locale: 'es'
+
+# Carpeta donde se subirán las imágenes
+media_folder: "img/articulos"
+public_folder: "/img/articulos"
+
+# Mensaje que verás al guardar
+display_url: https://juanmanuelbejarano.netlify.app
+site_url: https://juanmanuelbejarano.netlify.app
+
+# =============================================================================
+# COLECCIONES — los tipos de contenido que puedes editar
+# =============================================================================
+collections:
+
+  # ---------------------------------------------------------------------------
+  # COLECCIÓN 1: ARTÍCULOS (crear / editar / borrar)
+  # Cada artículo es un archivo Markdown en la carpeta /content/articulos/
+  # ---------------------------------------------------------------------------
+  - name: "articulos"
+    label: "Artículos"
+    label_singular: "Artículo"
+    folder: "content/articulos"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}} · {{category}} · {{date | date('DD-MM-YYYY')}}"
+    sortable_fields: ['date', 'title', 'category']
+    view_filters:
+      - label: "Economía"
+        field: category
+        pattern: "Economía"
+      - label: "Liderazgo"
+        field: category
+        pattern: "Liderazgo"
+      - label: "Finanzas"
+        field: category
+        pattern: "Finanzas"
+      - label: "Estrategia Comercial"
+        field: category
+        pattern: "Estrategia Comercial"
+      - label: "Marketing"
+        field: category
+        pattern: "Marketing"
+      - label: "Transformación"
+        field: category
+        pattern: "Transformación"
+    fields:
+      - { label: "Título", name: "title", widget: "string", hint: "El titular principal del artículo" }
+      - label: "Categoría"
+        name: "category"
+        widget: "select"
+        options:
+          - "Economía"
+          - "Liderazgo"
+          - "Finanzas"
+          - "Estrategia Comercial"
+          - "Marketing"
+          - "Transformación"
+        default: "Economía"
+      - { label: "Fecha de publicación", name: "date", widget: "datetime", date_format: "DD-MM-YYYY", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Resumen / Bajada", name: "deck", widget: "text", hint: "Frase corta que aparece debajo del título — 2 o 3 líneas máximo" }
+      - { label: "Tiempo de lectura (minutos)", name: "readtime", widget: "number", default: 7, min: 1, max: 30 }
+      - { label: "Imagen de portada (opcional)", name: "image", widget: "image", required: false, hint: "Imagen destacada del artículo. Si no la subes, se usa un fondo de color." }
+      - label: "Cuerpo del artículo"
+        name: "body"
+        widget: "markdown"
+        hint: "Contenido completo del artículo. Usa los botones de formato para títulos, negritas, citas, listas, etc."
+        modes: ["rich_text", "raw"]
+        buttons:
+          - bold
+          - italic
+          - heading-two
+          - heading-three
+          - quote
+          - bulleted-list
+          - numbered-list
+          - link
+          - code
+        editor_components:
+          - image
+          - code-block
+
+  # ---------------------------------------------------------------------------
+  # COLECCIÓN 2: CONFIGURACIÓN DEL SITIO
+  # Permite editar los textos principales del home
+  # ---------------------------------------------------------------------------
+  - name: "configuracion"
+    label: "Configuración del sitio"
+    delete: false
+    editor:
+      preview: false
+    files:
+
+      - file: "_data/sitio.yml"
+        label: "Textos del Home"
+        name: "home"
+        fields:
+          - { label: "Nombre", name: "nombre", widget: "string", default: "Juan Manuel Bejarano" }
+          - { label: "Subtítulo profesional", name: "subtitulo", widget: "string", default: "MBA · Executive Master Finanzas" }
+          - { label: "Frase del Hero (línea 1)", name: "hero_linea_1", widget: "string", default: "Pensamiento ejecutivo" }
+          - { label: "Frase del Hero (línea 2)", name: "hero_linea_2", widget: "string", default: "para tiempos que exigen criterio." }
+          - { label: "Lead del Hero", name: "hero_lead", widget: "text" }
+          - { label: "Texto Sobre Mí (intro)", name: "sobre_mi_intro", widget: "text" }
+          - { label: "Email de contacto", name: "email", widget: "string", default: "contacto@jmbejarano.com" }
+          - { label: "URL de LinkedIn", name: "linkedin", widget: "string", required: false }
+          - { label: "URL de X / Twitter", name: "twitter", widget: "string", required: false }
+
+      - file: "_data/cita.yml"
+        label: "Cita destacada"
+        name: "cita"
+        fields:
+          - { label: "Texto de la cita", name: "texto", widget: "text" }
+          - { label: "Atribución", name: "atribucion", widget: "string", default: "Juan Manuel Bejarano Morales" }
